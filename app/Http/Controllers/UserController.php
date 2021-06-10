@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\PostResource;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\UserResource;
 
-class PostController extends BaseController
+class UserController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class PostController extends BaseController
      */
     public function index()
     {
-        $posts = Post::all();
+        $users = User::all();
 
-        return $this->sendResponse(PostResource::collection($posts), 'Posts retrieved successfully.');
+        return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
     }
 
     /**
@@ -45,10 +45,10 @@ class PostController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Category $category)
     {
         //
     }
@@ -56,10 +56,10 @@ class PostController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Category $category)
     {
         //
     }
@@ -68,10 +68,10 @@ class PostController extends BaseController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -79,10 +79,10 @@ class PostController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Category $category)
     {
         //
     }

@@ -23,7 +23,7 @@ class AuthController extends Controller
             'password' => bcrypt($fields['password'])
         ]);
 
-        $token = $user->createToken('token')->plainTextToken;
+        $token = $user->createToken('token');
 
         $response = [
             'user' => $user,
@@ -48,7 +48,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $token = $user->createToken('token')->plainTextToken;
+        $token = $user->createToken('token');
 
         $response = [
             'user' => $user,
