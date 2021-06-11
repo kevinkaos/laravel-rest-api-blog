@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController;
+use App\Http\Resources\ItemCollection;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends BaseController
