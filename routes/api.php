@@ -29,6 +29,10 @@ Route::post('/login', [AuthController::class, 'login']);
 //protected
 Route::middleware('auth:api')->group(function () {
     Route::get('/posts', [PostController::class, 'index']);
+    Route::post('/post', [PostController::class, 'store']);
+    Route::get('/post/{post}', [PostController::class, 'show']);
+    Route::post('/post/{post}', [PostController::class, 'update']);
+    Route::delete('/post/{post}', [PostController::class, 'destroy']);
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/users', [UserController::class, 'index']);
 });
