@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController;
@@ -19,9 +20,9 @@ class PostController extends BaseController
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with(['user', 'category'])->paginate(20);
 
-        return $this->sendResponse(PostResource::collection($posts), 'Posts retrieved successfully.');
+        return $this->sendResponse($posts, 'Posts retrieved successfully.');
     }
 
     /**

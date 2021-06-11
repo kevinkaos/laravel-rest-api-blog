@@ -10,7 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Post extends Model
 {
     use HasFactory;
-
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    // protected $with = ['category', 'user'];
     /**
      * The attributes that are mass assignable.
      *
@@ -22,11 +27,11 @@ class Post extends Model
 
     public function category()
     {
-        $this->hasMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function user()
     {
-        $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 }
