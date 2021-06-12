@@ -26,6 +26,17 @@ class PostController extends BaseController
         return $this->sendResponse($posts, 'Posts retrieved successfully.');
     }
 
+    public function getPostsByCategoryId(int $categoryId)
+    {
+        // $category = Category::find($categoryId);
+
+        // $posts = $category->posts;
+
+        $posts = Post::with('user', 'category')->where('category_id', $categoryId)->paginate(20);
+
+        return $this->sendResponse($posts, 'Posts with categoryId retrieved successfully.');
+    }
+
     /**
      * Store a newly created resource in storage.
      *

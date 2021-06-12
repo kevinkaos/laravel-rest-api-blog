@@ -45,7 +45,8 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                'message' => 'Bad Credencials'
+                'message' => 'Bad Credencials',
+                'status' => 401
             ], 401);
         }
 

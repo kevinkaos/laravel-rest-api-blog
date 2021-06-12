@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/posts/{category}', [PostController::class, 'getPostsByCategoryId']);
 
 //protected
 Route::middleware('auth:api')->group(function () {
@@ -34,6 +36,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/post/{post}', [PostController::class, 'show']);
     Route::post('/post/{post}', [PostController::class, 'update']);
     Route::delete('/post/{post}', [PostController::class, 'destroy']);
-    Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/users', [UserController::class, 'index']);
 });
