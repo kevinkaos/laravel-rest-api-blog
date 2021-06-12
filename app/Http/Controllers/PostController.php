@@ -21,18 +21,21 @@ class PostController extends BaseController
      */
     public function index()
     {
-        $posts = Post::with(['user', 'category'])->paginate(20);
+        $posts = Post::with(['user', 'category'])->paginate(10);
 
         return $this->sendResponse($posts, 'Posts retrieved successfully.');
     }
 
     public function getPostsByCategoryId(int $categoryId)
     {
-        // $category = Category::find($categoryId);
+        $posts = Post::with('user', 'category')->where('category_id', $categoryId)->paginate(10);
 
-        // $posts = $category->posts;
+        return $this->sendResponse($posts, 'Posts with categoryId retrieved successfully.');
+    }
 
-        $posts = Post::with('user', 'category')->where('category_id', $categoryId)->paginate(20);
+    public function getPostsByUserId(int $userId)
+    {
+        $posts = Post::with('user', 'category')->where('user_id', $userId)->paginate(10);
 
         return $this->sendResponse($posts, 'Posts with categoryId retrieved successfully.');
     }
