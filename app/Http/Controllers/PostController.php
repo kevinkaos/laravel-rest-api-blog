@@ -26,6 +26,7 @@ class PostController extends BaseController
         return $this->sendResponse($posts, 'Posts retrieved successfully.');
     }
 
+
     public function getPostsByCategoryId(int $categoryId)
     {
         $posts = Post::with('user', 'category')->where('category_id', $categoryId)->paginate(10);
@@ -38,6 +39,15 @@ class PostController extends BaseController
         $posts = Post::with('user', 'category')->where('user_id', $userId)->paginate(10);
 
         return $this->sendResponse($posts, 'Posts with categoryId retrieved successfully.');
+    }
+
+
+    public function search(Request $request)
+    {
+        $posts = Post::with('user', 'category')->where('title', 'like', '%' . $request->search . '%')
+            ->orWhere('body', 'like', '%' . $request->search . '%')->paginate(10);
+
+        return $this->sendResponse($posts, 'Post found successfully.');
     }
 
     /**
