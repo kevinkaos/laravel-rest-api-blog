@@ -41,4 +41,5 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/post/{post}', [PostController::class, 'destroy']);
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/comments/{post}', [CommentController::class, 'getCommentsOfPost']);
+    Route::post('/comment/{post}', [CommentController::class, 'store']);
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BaseController;
 
 class CommentController extends BaseController
@@ -41,9 +42,23 @@ class CommentController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, int $postId)
     {
-        //
+        if ($postId > 0) {
+            $fields = $request->validate([
+                'body' => 'required|max:500'
+            ]);
+
+            $comment = Comment::create([
+                'body' => $fields['body'],
+                'user_id' => Auth::user()->id,
+                'post_id' => $postId,
+            ]);
+
+            return $this->sendResponse($comment->load('user'), 'Comment created successfully');
+        } else {
+            return $this->sendError('not found', 'not found');
+        }
     }
 
     /**
