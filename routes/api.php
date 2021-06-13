@@ -27,10 +27,10 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/search/{search}', [PostController::class, 'search']);
 
 //protected
 Route::middleware('auth:api')->group(function () {
+    Route::get('/search', [PostController::class, 'search']);
     Route::get('/posts', [PostController::class, 'index']);
     Route::get('/posts/category/{category}', [PostController::class, 'getPostsByCategoryId']);
     Route::get('/posts/user/{user}', [PostController::class, 'getPostsByUserId']);

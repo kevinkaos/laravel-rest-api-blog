@@ -44,10 +44,14 @@ class PostController extends BaseController
 
     public function search(Request $request)
     {
-        $posts = Post::with('user', 'category')->where('title', 'like', '%' . $request->search . '%')
-            ->orWhere('body', 'like', '%' . $request->search . '%')->paginate(10);
+        $search = $request->search;
 
-        return $this->sendResponse($posts, 'Post found successfully.');
+        if ($request->has('search')) {
+            return $this->sendResponse(Post::with('user', 'category')->where('title', 'like', '%' . $search . '%')
+                ->orWhere('body', 'like', '%' . $search . '%')->paginate(10), 'posts found');
+        } else {
+            return $this->sendResponse(Post::with('user', 'category')->paginate(10), 'posts found');
+        }
     }
 
     /**
