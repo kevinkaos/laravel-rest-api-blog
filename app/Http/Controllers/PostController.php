@@ -75,7 +75,11 @@ class PostController extends BaseController
             return $this->sendError($validator->errors());
         };
 
-        return $this->sendResponse(Post::create($data), 'Post created successfully');
+        $post = Post::create($data);
+
+        $result = Post::with('user', 'category')->where('id', $post->id)->first();
+
+        return $this->sendResponse($result, 'Post created successfully');
     }
 
     /**
