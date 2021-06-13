@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Comment;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +23,7 @@ class Post extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'body', 'user_id', 'category_id'
+        'title', 'body', 'user_id', 'category_id', 'comment_id'
     ];
 
     public function category()
@@ -35,8 +36,8 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function scopeFilter($query)
-    // {
-
-    // }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

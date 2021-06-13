@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,20 +19,21 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(20)->create();
         Category::factory()->create([
-            'name' => 'Category 1'
+            'name' => 'Personal'
         ]);
         Category::factory()->create([
-            'name' => 'Category 2'
+            'name' => 'Work'
         ]);
         Category::factory()->create([
-            'name' => 'Category 3'
+            'name' => 'Sports'
         ]);
         Category::factory()->create([
-            'name' => 'Category 4'
+            'name' => 'Movies'
         ]);
         Category::factory()->create([
-            'name' => 'Category 5'
+            'name' => 'Laravel'
         ]);
         Post::factory(100)->create();
+        Comment::factory(400)->create();
     }
 }

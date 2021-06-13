@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -39,4 +40,5 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/post/{post}', [PostController::class, 'update']);
     Route::delete('/post/{post}', [PostController::class, 'destroy']);
     Route::get('/users', [UserController::class, 'index']);
+    Route::get('/comments/{post}', [CommentController::class, 'getCommentsOfPost']);
 });
