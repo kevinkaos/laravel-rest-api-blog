@@ -40,6 +40,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/post/{post}', [PostController::class, 'update']);
     Route::delete('/post/{post}', [PostController::class, 'destroy']);
     Route::get('/users', [UserController::class, 'index']);
+    Route::get('/user', [UserController::class, 'getAuthenticatedUser']);
+    Route::post('/user', [UserController::class, 'update']);
     Route::get('/comments/{post}', [CommentController::class, 'getCommentsOfPost']);
     Route::post('/comment/{post}', [CommentController::class, 'store']);
 });

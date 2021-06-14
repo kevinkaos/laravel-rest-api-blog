@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\BaseController;
+use Illuminate\Validation\Rule;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
@@ -19,6 +22,13 @@ class UserController extends BaseController
         $users = User::all();
 
         return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
+    }
+
+    public function getAuthenticatedUser()
+    {
+        $user = Auth::guard('api')->user();
+
+        return $this->sendResponse($user, 'Got currently logged in user');
     }
 
     /**
@@ -54,26 +64,32 @@ class UserController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request)
     {
-        //
+        $input = $request->all();
+        $user = Auth::guard('api')->user();
+
+        $validator = Validator::make($input, [
+            'username' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($user->id)],
+            'email' => ['required', 'string', 'email', Rule::unique('users')->ignore($user->id)],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError($validator->errors());
+        }
+
+
+        $user->username = $input['username'];
+        $user->email = $input['email'];
+
+        $user->save();
+
+        return $this->sendResponse($user, 'User updated successfully');
     }
 
     /**
