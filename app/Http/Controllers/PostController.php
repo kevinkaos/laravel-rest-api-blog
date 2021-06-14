@@ -45,10 +45,19 @@ class PostController extends BaseController
     public function search(Request $request)
     {
         $search = $request->search;
+        $category_id = $request->category_id;
 
         if ($request->has('search')) {
-            return $this->sendResponse(Post::with('user', 'category')->where('title', 'like', '%' . $search . '%')
-                ->orWhere('body', 'like', '%' . $search . '%')->orderBy('updated_at', 'DESC')->paginate(10), 'posts found');
+            if (!$request->has('category_id')) {
+                return $this->sendResponse(Post::with('user', 'category')->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('body', 'like', '%' . $search . '%')->orderBy('updated_at', 'DESC')->paginate(10), 'posts found');
+            } else {
+                return $this->sendResponse(Post::with('user', 'category')->where('category_id', $category_id)->where(
+                    fn ($query) =>
+                    $query->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('body', 'like', '%' . $search . '%')
+                )->orderBy('updated_at', 'DESC')->paginate(10), 'Category and search applied to posts');
+            }
         } else {
             return $this->sendResponse(Post::with('user', 'category')->orderBy('updated_at', 'DESC')->paginate(10), 'posts found');
         }
