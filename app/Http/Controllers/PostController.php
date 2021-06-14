@@ -21,7 +21,7 @@ class PostController extends BaseController
      */
     public function index()
     {
-        $posts = Post::with(['user', 'category'])->paginate(10);
+        $posts = Post::with(['user', 'category'])->orderBy('updated_at', 'DESC')->paginate(10);
 
         return $this->sendResponse($posts, 'Posts retrieved successfully.');
     }
@@ -29,14 +29,14 @@ class PostController extends BaseController
 
     public function getPostsByCategoryId(int $categoryId)
     {
-        $posts = Post::with('user', 'category')->where('category_id', $categoryId)->paginate(10);
+        $posts = Post::with('user', 'category')->where('category_id', $categoryId)->orderBy('updated_at', 'DESC')->paginate(10);
 
         return $this->sendResponse($posts, 'Posts with categoryId retrieved successfully.');
     }
 
     public function getPostsByUserId(int $userId)
     {
-        $posts = Post::with('user', 'category')->where('user_id', $userId)->paginate(10);
+        $posts = Post::with('user', 'category')->where('user_id', $userId)->orderBy('updated_at', 'DESC')->paginate(10);
 
         return $this->sendResponse($posts, 'Posts with categoryId retrieved successfully.');
     }
@@ -48,9 +48,9 @@ class PostController extends BaseController
 
         if ($request->has('search')) {
             return $this->sendResponse(Post::with('user', 'category')->where('title', 'like', '%' . $search . '%')
-                ->orWhere('body', 'like', '%' . $search . '%')->paginate(10), 'posts found');
+                ->orWhere('body', 'like', '%' . $search . '%')->orderBy('updated_at', 'DESC')->paginate(10), 'posts found');
         } else {
-            return $this->sendResponse(Post::with('user', 'category')->paginate(10), 'posts found');
+            return $this->sendResponse(Post::with('user', 'category')->orderBy('updated_at', 'DESC')->paginate(10), 'posts found');
         }
     }
 
@@ -120,7 +120,7 @@ class PostController extends BaseController
         }
         $post->save();
 
-        return $this->sendResponse(new PostResource($post), 'Post updated successfully');
+        return $this->sendResponse($post->load('user', 'category'), 'Post updated successfully');
     }
 
     /**
